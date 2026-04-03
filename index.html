@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mahalakshmi Developers – Red Sandalwood Farm Investment</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Force 3-column grid for plans section -->
+  <style>
+    @media (min-width: 900px) {
+      .plans-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════ HEADER ══════════════ -->
+  <header id="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-emblem">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="22" cy="22" r="21" stroke="#C8960C" stroke-width="1.5"/>
+            <path d="M22 8 C22 8 12 16 12 24 C12 30 16 34 22 36 C28 34 32 30 32 24 C32 16 22 8 22 8Z" fill="#8B1A1A" opacity="0.85"/>
+            <path d="M22 14 C22 14 15 20 15 26 C15 30 18 33 22 34 C26 33 29 30 29 26 C29 20 22 14 22 14Z" fill="#C8960C" opacity="0.7"/>
+            <line x1="22" y1="34" x2="22" y2="40" stroke="#C8960C" stroke-width="1.5"/>
+            <line x1="18" y1="37" x2="26" y2="37" stroke="#C8960C" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">Mahalakshmi</span>
+          <span class="logo-sub">Developers</span>
+        </div>
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#plans">Plans</a></li>
+          <li><a href="#benefits">Benefits</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#visit">Visit</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a href="#register" class="btn-nav">Invest Now</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <ul>
+        <li><a href="#hero" onclick="closeMobileNav()">Home</a></li>
+        <li><a href="#plans" onclick="closeMobileNav()">Plans</a></li>
+        <li><a href="#benefits" onclick="closeMobileNav()">Benefits</a></li>
+        <li><a href="#gallery" onclick="closeMobileNav()">Gallery</a></li>
+        <li><a href="#visit" onclick="closeMobileNav()">Visit</a></li>
+        <li><a href="#contact" onclick="closeMobileNav()">Contact</a></li>
+        <li><a href="#register" onclick="closeMobileNav()" class="btn-mobile-nav">Invest Now</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <section id="hero">
+    <div class="hero-bg">
+      <img src="C:\red sandalwood\Mahalakshmi developers website\images\WhatsApp Image 2026-03-17 at 20.28.45.jpeg" alt="Farmland" class="hero-img" />
+      <div class="hero-overlay"></div>
+      <div class="grain"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow reveal">Premium Agricultural Investment</p>
+      <h1 class="hero-title reveal">
+        Grow Wealth.<br/>
+        <em>Cultivate Legacy.</em>
+      </h1>
+      <p class="hero-tagline reveal">
+        Invest in Red Sandalwood Farms — one of India's most<br class="desktop-br"/>
+        valuable and legally protected timber assets.
+      </p>
+      <div class="hero-ctas reveal">
+        <a href="#plans" class="btn-primary">View Investment Plans</a>
+        <a href="#visit" class="btn-secondary">Book a Site Visit</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="stat">
+          <span class="stat-num">12–13</span>
+          <span class="stat-label">Years Growth</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Legal Land</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">500+</span>
+          <span class="stat-label">Happy Investors</span>
+        </div>
+      </div>
+    </div>
+    <a href="#plans" class="scroll-arrow">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </section>
+
+  <!-- ══════════════ WHY RED SANDALWOOD ══════════════ -->
+  <section id="why" class="section-why">
+    <div class="container">
+      <div class="why-grid">
+        <div class="why-text reveal">
+          <p class="section-eyebrow">Why Red Sandalwood?</p>
+          <h2 class="section-title">Nature's Most<br/><em>Precious Timber</em></h2>
+          <p class="why-desc">
+            Red Sandalwood (Pterocarpus santalinus) is endemic to the Eastern Ghats of Andhra Pradesh and among the world's most sought-after luxury woods — used in high-end furniture, Ayurvedic medicine, cosmetics, and spiritual artefacts. Its export value makes it a multi-crore asset per acre at maturity.
+          </p>
+          <ul class="why-list">
+            <li><span class="check">✦</span> Protected species with government-regulated cultivation</li>
+            <li><span class="check">✦</span> International demand from Japan, China, and the Middle East</li>
+            <li><span class="check">✦</span> Appreciates 10–15× in value over the growth cycle</li>
+            <li><span class="check">✦</span> Drought-resistant, low-maintenance crop</li>
+          </ul>
+        </div>
+        <div class="why-image reveal">
+          <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80" alt="Red Sandalwood Forest" />
+          <div class="why-badge">
+            <span class="badge-num">₹50Cr+</span>
+            <span class="badge-label">per acre potential</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ PLANS ══════════════ -->
+  <section id="plans" class="section-plans">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow light">Investment Plans</p>
+        <h2 class="section-title light">Choose Your <em>Growth Portfolio</em></h2>
+        <p class="section-sub light">Three carefully structured plans designed to maximise your returns over a 10–12 year growth cycle.</p>
+      </div>
+
+      <!-- ✅ ALL 3 CARDS INSIDE plans-grid -->
+      <div class="plans-grid">
+
+        <!-- Plan 1: Half Bit -->
+        <div class="plan-card reveal">
+          <div class="plan-ribbon">Starter</div>
+          <div class="plan-icon">
+            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" stroke="#C8960C" stroke-width="1.5"/><path d="M24 10 C20 16 14 20 14 28 C14 34 18 38 24 40 C30 38 34 34 34 28 C34 20 28 16 24 10Z" fill="#8B1A1A" opacity="0.8"/><line x1="24" y1="40" x2="24" y2="44" stroke="#C8960C" stroke-width="2"/></svg>
+          </div>
+          <h3 class="plan-name">Half Bit</h3>
+          <p class="plan-plants">50 Plants</p>
+          <div class="plan-price">
+            <span class="price-currency">₹</span>
+            <span class="price-amount">4,50,000</span>
+          </div>
+          <ul class="plan-features">
+            <li>50 Red Sandalwood Trees</li>
+            <li>Half-Bit Plot Allocation</li>
+            <li>10-12 Year Growth Period</li>
+            <li>Full Maintenance Included</li>
+            <li>CCTV Monitored Farm</li>
+            <li>Drip Irrigation System</li>
+            <li>Legal Documentation</li>
+          </ul>
+          <a href="#register" class="btn-plan">Invest in Half Bit</a>
+        </div>
+
+        <!-- Plan 2: Full Bit (Featured) -->
+        <div class="plan-card plan-featured reveal">
+          <div class="plan-ribbon featured-ribbon">Most Popular</div>
+          <div class="plan-icon">
+            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" stroke="#C8960C" stroke-width="1.5"/><path d="M24 6 C18 14 10 20 10 30 C10 38 16 43 24 45 C32 43 38 38 38 30 C38 20 30 14 24 6Z" fill="#8B1A1A" opacity="0.9"/><path d="M24 14 C20 20 15 24 15 30 C15 36 19 40 24 42 C29 40 33 36 33 30 C33 24 28 20 24 14Z" fill="#C8960C" opacity="0.5"/><line x1="24" y1="42" x2="24" y2="46" stroke="#C8960C" stroke-width="2"/></svg>
+          </div>
+          <h3 class="plan-name">Full Bit</h3>
+          <p class="plan-plants">100 Plants</p>
+          <div class="plan-price">
+            <span class="price-currency">₹</span>
+            <span class="price-amount">8,50,000</span>
+          </div>
+          <ul class="plan-features">
+            <li>100 Red Sandalwood Trees</li>
+            <li>Full-Bit Plot Allocation</li>
+            <li>10-12 Year Growth Period</li>
+            <li>Full Maintenance Included</li>
+            <li>CCTV Monitored Farm</li>
+            <li>Drip Irrigation System</li>
+            <li>Legal Documentation</li>
+            <li>Priority Investor Support</li>
+            <li>Quarterly Progress Reports</li>
+          </ul>
+          <a href="#register" class="btn-plan featured-btn">Invest in Full Bit</a>
+        </div>
+
+        <!-- Plan 3: One Acre -->
+        <div class="plan-card reveal">
+          <div class="plan-ribbon">Exclusive</div>
+          <div class="plan-icon">
+            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" stroke="#C8960C" stroke-width="1.5"/><path d="M24 6 C18 14 10 20 10 30 C10 38 16 43 24 45 C32 43 38 38 38 30 C38 20 30 14 24 6Z" fill="#8B1A1A" opacity="0.9"/><path d="M24 14 C20 20 15 24 15 30 C15 36 19 40 24 42 C29 40 33 36 33 30 C33 24 28 20 24 14Z" fill="#C8960C" opacity="0.5"/><line x1="24" y1="42" x2="24" y2="46" stroke="#C8960C" stroke-width="2"/></svg>
+          </div>
+          <h3 class="plan-name">One Acre</h3>
+          <p class="plan-plants">400 Plants</p>
+          <div class="plan-price">
+            <span class="price-currency">₹</span>
+            <span class="price-amount">34,00,000</span>
+          </div>
+          <ul class="plan-features">
+            <li>400 Red Sandalwood Trees</li>
+            <li>One-Acre Plot Allocation</li>
+            <li>10-12 Year Growth Period</li>
+            <li>Full Maintenance Included</li>
+            <li>CCTV Monitored Farm</li>
+            <li>Drip Irrigation System</li>
+            <li>Legal Documentation</li>
+            <li>Priority Investor Support</li>
+            <li>Quarterly Progress Reports</li>
+          </ul>
+          <a href="#register" class="btn-plan">Invest in One Acre</a>
+        </div>
+
+      </div><!-- END plans-grid -->
+
+      <p class="plans-note reveal">All plans include legally verified land documents, annual farm visits, and dedicated investor relationship management.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════ BENEFITS ══════════════ -->
+  <section id="benefits" class="section-benefits">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Why Invest With Us</p>
+        <h2 class="section-title">Built on <em>Trust & Transparency</em></h2>
+      </div>
+      <div class="benefits-grid">
+        <div class="benefit-card reveal">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 40 40" fill="none"><path d="M20 4L4 12V22C4 30.8 11.1 39 20 41C28.9 39 36 30.8 36 22V12L20 4Z" stroke="#C8960C" stroke-width="1.5" fill="none"/><path d="M14 20L18 24L26 16" stroke="#8B1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h4>100% Legally Verified</h4>
+          <p>All land documents are registered, verified by legal authorities, and free of encumbrances. Complete transparency guaranteed.</p>
+        </div>
+        <div class="benefit-card reveal">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 40 40" fill="none"><path d="M4 20H36M8 12H32M12 28H28" stroke="#C8960C" stroke-width="1.5" stroke-linecap="round"/><circle cx="20" cy="20" r="18" stroke="#8B1A1A" stroke-width="1" opacity="0.5"/></svg>
+          </div>
+          <h4>Highway Access</h4>
+          <p>Farm located with direct access to major highways, ensuring ease of site visits, transport, and logistics during harvest.</p>
+        </div>
+        <div class="benefit-card reveal">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 40 40" fill="none"><rect x="8" y="12" width="24" height="18" rx="2" stroke="#C8960C" stroke-width="1.5"/><circle cx="20" cy="21" r="4" stroke="#8B1A1A" stroke-width="1.5"/><path d="M14 12V10C14 7.8 16 6 18 6H22C24 6 26 7.8 26 10V12" stroke="#C8960C" stroke-width="1.5"/></svg>
+          </div>
+          <h4>24/7 CCTV Security</h4>
+          <p>Full-perimeter CCTV surveillance with remote monitoring protects your investment around the clock, every single day.</p>
+        </div>
+        <div class="benefit-card reveal">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 40 40" fill="none"><path d="M20 6 L20 34 M10 16 L20 6 L30 16" stroke="#C8960C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 34H32" stroke="#8B1A1A" stroke-width="2" stroke-linecap="round"/><path d="M14 34V24H26V34" stroke="#C8960C" stroke-width="1.5"/></svg>
+          </div>
+          <h4>High Growth Investment</h4>
+          <p>Red Sandalwood appreciates dramatically over its growth cycle, with mature timber valued at multi-crore returns per acre.</p>
+        </div>
+        <div class="benefit-card reveal">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="14" r="6" stroke="#C8960C" stroke-width="1.5"/><path d="M8 34C8 27.4 13.4 22 20 22C26.6 22 32 27.4 32 34" stroke="#8B1A1A" stroke-width="1.5" stroke-linecap="round"/><path d="M28 18L30 20L34 16" stroke="#C8960C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h4>Maintenance Support</h4>
+          <p>Our expert agronomy team handles all plantation maintenance — watering, fertilisation, pest control — so you invest stress-free.</p>
+        </div>
+        <div class="benefit-card reveal">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 40 40" fill="none"><path d="M20 6C13 6 8 11 8 18C8 25 12 30 20 36C28 30 32 25 32 18C32 11 27 6 20 6Z" stroke="#C8960C" stroke-width="1.5" fill="none"/><path d="M16 20L19 23L24 17" stroke="#8B1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h4>Government Approved</h4>
+          <p>Cultivation operates under full government approval and follows all Forest & Revenue Department guidelines for red sandalwood farming.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ GALLERY ══════════════ -->
+  <section id="gallery" class="section-gallery">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow light">Farm Gallery</p>
+        <h2 class="section-title light">See Your <em>Investment</em></h2>
+        <p class="section-sub light">A glimpse into the lush, thriving farm that will grow your wealth over the years.</p>
+      </div>
+      <div class="gallery-grid reveal">
+        <div class="gallery-item tall">
+          <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80" alt="Farm Row 1" />
+          <div class="gallery-overlay"><span>Plantation Rows</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600&q=80" alt="Farm Landscape" />
+          <div class="gallery-overlay"><span>Green Landscape</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1500651230702-0e2d8a49d4e6?w=600&q=80" alt="Saplings" />
+          <div class="gallery-overlay"><span>Young Saplings</span></div>
+        </div>
+        <div class="gallery-item wide">
+          <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?w=900&q=80" alt="Vast Farm" />
+          <div class="gallery-overlay"><span>Vast Farm Expanse</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=600&q=80" alt="Irrigation" />
+          <div class="gallery-overlay"><span>Irrigation System</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1440342359743-84fcb8c21f21?w=600&q=80" alt="Mature Trees" />
+          <div class="gallery-overlay"><span>Mature Trees</span></div>
+        </div>
+      </div>
+
+      <!-- Video Section -->
+      <div class="video-section reveal">
+        <div class="video-label">
+          <span class="section-eyebrow light">Farm Walkthrough</span>
+          <h3 class="video-title">Watch Our Farm <em>in Action</em></h3>
+        </div>
+        <div class="video-wrapper">
+          <iframe
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="Mahalakshmi Developers Farm Tour"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ VISIT BOOKING ══════════════ -->
+  <section id="visit" class="section-visit">
+    <div class="container">
+      <div class="visit-grid">
+        <div class="visit-info reveal">
+          <p class="section-eyebrow">Site Visit</p>
+          <h2 class="section-title">Come See It<br/><em>For Yourself</em></h2>
+          <p class="visit-desc">
+            We warmly invite you to visit our farm in Pamuru, Prakasam District. Walk through the plantation, meet our team, and understand your investment first-hand. Site visits are available on weekdays and weekends.
+          </p>
+          <div class="visit-details">
+            <div class="vd-item">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#C8960C"/></svg>
+              <span>Pamuru, Prakasam District, Andhra Pradesh</span>
+            </div>
+            <div class="vd-item">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="#C8960C"/></svg>
+              <span>+91 99493 12233</span>
+            </div>
+            <div class="vd-item">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z" fill="#C8960C"/></svg>
+              <span>Mon–Sun: 9:00 AM – 6:00 PM</span>
+            </div>
+          </div>
+        </div>
+        <div class="visit-form-wrap reveal">
+          <form class="visit-form" id="visitForm" novalidate>
+            <h3 class="form-title">Book a Visit</h3>
+            <div class="form-group">
+              <label for="v-name">Full Name *</label>
+              <input type="text" id="v-name" placeholder="Your full name" required />
+              <span class="err-msg">Please enter your name.</span>
+            </div>
+            <div class="form-group">
+              <label for="v-email">Email Address *</label>
+              <input type="email" id="v-email" placeholder="you@example.com" required />
+              <span class="err-msg">Please enter a valid email.</span>
+            </div>
+            <div class="form-group">
+              <label for="v-phone">Phone Number *</label>
+              <input type="tel" id="v-phone" placeholder="+91 XXXXX XXXXX" required />
+              <span class="err-msg">Please enter a valid 10-digit phone number.</span>
+            </div>
+            <div class="form-group">
+              <label for="v-plan">Investment Plan *</label>
+              <select id="v-plan" required>
+                <option value="">Select a plan</option>
+                <option value="half">Half Bit – 50 Plants (₹4,50,000)</option>
+                <option value="full">Full Bit – 100 Plants (₹8,50,000)</option>
+                <option value="acre">One Acre – 400 Plants (₹34,00,000)</option>
+              </select>
+              <span class="err-msg">Please select a plan.</span>
+            </div>
+            <div class="form-group">
+              <label for="v-visit">Would you like to visit the farm?</label>
+              <select id="v-visit" onchange="toggleVisitDate()">
+                <option value="">Select an option</option>
+                <option value="yes">Yes, I'd like to visit</option>
+                <option value="no">No, I'll enquire online</option>
+              </select>
+            </div>
+            <div class="form-group" id="dateGroup" style="display:none;">
+              <label for="v-date">Preferred Visit Date *</label>
+              <input type="date" id="v-date" />
+              <span class="err-msg">Please select a date.</span>
+            </div>
+            <div class="online-msg" id="onlineMsg" style="display:none;">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="#C8960C"/></svg>
+              <p>No problem! Submit this form and our team will reach out to you with a detailed brochure and virtual farm tour within 24 hours.</p>
+            </div>
+            <button type="submit" class="btn-submit" onclick="submitVisitForm(event)">Submit Request</button>
+            <div class="form-success" id="visitSuccess">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" stroke="#2d6a4f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <p>Thank you! We'll be in touch within 24 hours.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ REGISTER ══════════════ -->
+  <section id="register" class="section-register">
+    <div class="container">
+      <div class="register-inner">
+        <div class="section-header reveal">
+          <p class="section-eyebrow light">Get Started</p>
+          <h2 class="section-title light">Register Your <em>Interest</em></h2>
+          <p class="section-sub light">Fill in your details below and our investment advisor will contact you within 24 hours with a personalised proposal.</p>
+        </div>
+        <form class="register-form reveal" id="registerForm" novalidate>
+          <div class="rform-row">
+            <div class="form-group">
+              <label for="r-name">Full Name *</label>
+              <input type="text" id="r-name" placeholder="Your full name" required />
+              <span class="err-msg">Please enter your name.</span>
+            </div>
+            <div class="form-group">
+              <label for="r-email">Email Address *</label>
+              <input type="email" id="r-email" placeholder="you@example.com" required />
+              <span class="err-msg">Please enter a valid email.</span>
+            </div>
+          </div>
+          <div class="rform-row">
+            <div class="form-group">
+              <label for="r-phone">Phone Number *</label>
+              <input type="tel" id="r-phone" placeholder="+91 XXXXX XXXXX" required />
+              <span class="err-msg">Please enter a valid phone number.</span>
+            </div>
+            <div class="form-group">
+              <label for="r-plan">Preferred Plan *</label>
+              <select id="r-plan" required>
+                <option value="">Select a plan</option>
+                <option value="half">Half Bit – 50 Plants (₹4,50,000)</option>
+                <option value="full">Full Bit – 100 Plants (₹8,50,000)</option>
+                <option value="acre">One Acre – 400 Plants (₹34,00,000)</option>
+                <option value="both">Interested in Multiple</option>
+              </select>
+              <span class="err-msg">Please select a plan.</span>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label for="r-msg">Message / Questions (Optional)</label>
+            <textarea id="r-msg" rows="4" placeholder="Any questions or specific requirements?"></textarea>
+          </div>
+          <button type="submit" class="btn-submit btn-submit-reg" onclick="submitRegisterForm(event)">Register My Interest</button>
+          <div class="form-success" id="registerSuccess">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" stroke="#2d6a4f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p>Registration received! Our team will contact you within 24 hours.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ CONTACT ══════════════ -->
+  <section id="contact" class="section-contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <p class="section-eyebrow">Get In Touch</p>
+          <h2 class="section-title">We're Here<br/><em>to Guide You</em></h2>
+          <div class="contact-items">
+            <div class="ci">
+              <div class="ci-icon">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#C8960C"/></svg>
+              </div>
+              <div>
+                <strong>Address</strong>
+                <p>Pamuru, Prakasam District,<br/>Andhra Pradesh – 523225</p>
+              </div>
+            </div>
+            <div class="ci">
+              <div class="ci-icon">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="#C8960C"/></svg>
+              </div>
+              <div>
+                <strong>Phone</strong>
+                <p><a href="tel:+919949312233">+91 99493 12233</a></p>
+              </div>
+            </div>
+            <div class="ci">
+              <div class="ci-icon">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="#C8960C"/></svg>
+              </div>
+              <div>
+                <strong>Email</strong>
+                <p><a href="mailto:info@mahalakshmidevelopers.in">info@mahalakshmidevelopers.in</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-map reveal">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61466.08765432!2d79.5!3d15.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4b3f7e1234abcd%3A0x5678ef90!2sPamuru%2C+Andhra+Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+            width="100%"
+            height="380"
+            style="border:0;border-radius:12px;"
+            allowfullscreen=""
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo">
+            <div class="logo-emblem sm">
+              <svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="21" stroke="#C8960C" stroke-width="1.5"/><path d="M22 8 C22 8 12 16 12 24 C12 30 16 34 22 36 C28 34 32 30 32 24 C32 16 22 8 22 8Z" fill="#8B1A1A" opacity="0.85"/><path d="M22 14 C22 14 15 20 15 26 C15 30 18 33 22 34 C26 33 29 30 29 26 C29 20 22 14 22 14Z" fill="#C8960C" opacity="0.7"/><line x1="22" y1="34" x2="22" y2="40" stroke="#C8960C" stroke-width="1.5"/><line x1="18" y1="37" x2="26" y2="37" stroke="#C8960C" stroke-width="1.5"/></svg>
+            </div>
+            <div class="logo-text">
+              <span class="logo-name">Mahalakshmi</span>
+              <span class="logo-sub">Developers</span>
+            </div>
+          </div>
+          <p class="footer-tagline">Red Sandalwood Farm Investment — Growing wealth through nature's finest timber.</p>
+        </div>
+        <div class="footer-links">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#plans">Investment Plans</a></li>
+            <li><a href="#benefits">Benefits</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#visit">Book Visit</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h5>Plans</h5>
+          <ul>
+            <li><a href="#plans">Half Bit – ₹4,50,000</a></li>
+            <li><a href="#plans">Full Bit – ₹8,50,000</a></li>
+            <li><a href="#plans">One Acre – ₹34,00,000</a></li>
+            <li><a href="#register">Register Interest</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="tel:+919949312233">+91 99493 12233</a></li>
+            <li><a href="mailto:info@mahalakshmidevelopers.in">info@mahalakshmidevelopers.in</a></li>
+            <li>Pamuru, Prakasam Dist., AP</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Mahalakshmi Developers. All rights reserved.</p>
+        <p class="footer-disclaimer">Investment in agricultural land involves risk. Past performance does not guarantee future results. Please consult a financial advisor before investing.</p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#hero" class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
