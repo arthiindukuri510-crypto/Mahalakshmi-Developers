@@ -1,475 +1,301 @@
-'use strict';
+/* ── CONFIG ── */
+const CONFIG = {
+  gasUrl: "https://script.google.com/macros/s/AKfycbxVl2u7VHMMQQlYDEYXY_G1ltkO4pyjyzfdXNhidEJaAtTZWC2_RmgkLI8Q4ZyDy-Cm9w/exec",
+};
 
-// ── Your Google Apps Script Web App URL ──
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVl2u7VHMMQQlYDEYXY_G1ltkO4pyjyzfdXNhidEJaAtTZWC2_RmgkLI8Q4ZyDy-Cm9w/exec';
+/* ── FIREBASE CONFIG — paste your 4 values from Firebase Console ── */
+const firebaseConfig = {
+  apiKey: "AIzaSyD5vt8hG2v6bWW6aAgjIu6jYuXtOn5mQ7c",
+  authDomain: "mahalakshmi-developers.firebaseapp.com",
+  projectId: "mahalakshmi-developers",
+  appId: "1:622045706494:web:986f023bdcbb23ec8f0daf"
+};
 
-/* ══════════════════════════════════════════
-   VALIDATION FUNCTIONS
-══════════════════════════════════════════ */
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 
-/**
- * EMAIL VALIDATION
- * Rules:
- *  - Standard format: local@domain.tld
- *  - No spaces, no consecutive dots
- *  - Domain must have at least one dot
- *  - TLD must be 2–10 characters
- *  - No special chars except . _ % + - in local part
- */
-function validateEmail(email) {
-  email = email.trim();
-  if (!email) return { valid: false, msg: 'Email address is required.' };
+/* ── reCAPTCHA — one for each form ──
+   Each form has its own div: recaptcha-visit and recaptcha-register
+   These are rendered automatically on page load               */
+let recaptchaVisit    = null;
+let recaptchaRegister = null;
 
-  // No spaces allowed
-  if (/\s/.test(email)) return { valid: false, msg: 'Email must not contain spaces.' };
-
-  // No consecutive dots
-  if (/\.\./.test(email)) return { valid: false, msg: 'Email must not contain consecutive dots.' };
-
-  // Full RFC-style regex
-  const emailRegex = /^[a-zA-Z0-9][a-zA-Z0-9._%+\-]*@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,10}$/;
-  if (!emailRegex.test(email)) return { valid: false, msg: 'Please enter a valid email (e.g. name@gmail.com).' };
-
-  // Local part cannot start or end with a dot
-  const local = email.split('@')[0];
-  if (local.startsWith('.') || local.endsWith('.')) {
-    return { valid: false, msg: 'Email local part cannot start or end with a dot.' };
+function initRecaptchas() {
+  if (!recaptchaVisit) {
+    recaptchaVisit = new firebase.auth.RecaptchaVerifier("recaptcha-visit", {
+      size: "normal",
+      callback: () => {},
+    });
+    recaptchaVisit.render();
   }
-
-  return { valid: true, msg: '' };
+  if (!recaptchaRegister) {
+    recaptchaRegister = new firebase.auth.RecaptchaVerifier("recaptcha-register", {
+      size: "normal",
+      callback: () => {},
+    });
+    recaptchaRegister.render();
+  }
 }
 
-/**
- * PHONE VALIDATION
- * Rules:
- *  - Strips spaces, dashes, dots, parentheses, +91 / 0 prefix
- *  - Must be exactly 10 digits after stripping
- *  - First digit must be 6, 7, 8, or 9 (valid Indian mobile)
- *  - Cannot be all same digits (e.g. 9999999999)
- */
-function validatePhone(phone) {
-  if (!phone.trim()) return { valid: false, msg: 'Phone number is required.' };
-
-  // Strip allowed formatting characters
-  let cleaned = phone.trim()
-    .replace(/[\s\-().]/g, '')   // remove spaces, dashes, dots, brackets
-    .replace(/^\+91/, '')         // remove +91 prefix
-    .replace(/^91(?=\d{10}$)/, '') // remove 91 if followed by exactly 10 digits
-    .replace(/^0/, '');            // remove leading 0
-
-  // Must be exactly 10 digits now
-  if (!/^\d{10}$/.test(cleaned)) {
-    return { valid: false, msg: 'Enter a valid 10-digit Indian mobile number.' };
-  }
-
-  // First digit must be 6, 7, 8, or 9
-  if (!/^[6-9]/.test(cleaned)) {
-    return { valid: false, msg: 'Mobile number must start with 6, 7, 8, or 9.' };
-  }
-
-  // Cannot be all same digits
-  if (/^(\d)\1{9}$/.test(cleaned)) {
-    return { valid: false, msg: 'Please enter a real phone number.' };
-  }
-
-  return { valid: true, msg: '' };
-}
+window.addEventListener("load", initRecaptchas);
 
 
-/* ══════════════════════════════════════════
-   ERROR DISPLAY HELPERS
-══════════════════════════════════════════ */
-
-function setError(id, hasError, customMsg) {
-  const el    = document.getElementById(id);
-  const group = el.closest('.form-group');
-  const errEl = group.querySelector('.err-msg');
-
-  group.classList.toggle('error', hasError);
-
-  if (hasError && customMsg && errEl) {
-    errEl.textContent = customMsg;
-  }
-  return hasError;
-}
-
-function clearError(id) {
-  const el = document.getElementById(id);
-  if (el) el.closest('.form-group').classList.remove('error');
-}
-
-
-/* ══════════════════════════════════════════
-   REAL-TIME VALIDATION ON INPUT
-   (shows feedback as user types / leaves field)
-══════════════════════════════════════════ */
-
-function attachRealtimeValidation(inputId, type) {
-  const el = document.getElementById(inputId);
-  if (!el) return;
-
-  // Validate on blur (when user leaves field)
-  el.addEventListener('blur', () => {
-    if (type === 'email') {
-      const result = validateEmail(el.value);
-      setError(inputId, !result.valid, result.msg);
-    } else if (type === 'phone') {
-      const result = validatePhone(el.value);
-      setError(inputId, !result.valid, result.msg);
-    }
-  });
-
-  // Clear error as user types (after an error was shown)
-  el.addEventListener('input', () => {
-    const group = el.closest('.form-group');
-    if (group.classList.contains('error')) {
-      if (type === 'email') {
-        const result = validateEmail(el.value);
-        if (result.valid) clearError(inputId);
-      } else if (type === 'phone') {
-        const result = validatePhone(el.value);
-        if (result.valid) clearError(inputId);
-      }
-    }
-  });
-}
-
-// Attach real-time validation to all email and phone fields
-attachRealtimeValidation('v-email', 'email');
-attachRealtimeValidation('v-phone', 'phone');
-attachRealtimeValidation('r-email', 'email');
-attachRealtimeValidation('r-phone', 'phone');
-
-
-/* ══════════════════════════════════════════
-   CLEAR ERRORS ON INPUT (all fields)
-══════════════════════════════════════════ */
-document.querySelectorAll('.form-group input, .form-group select').forEach(el => {
-  el.addEventListener('input', () => {
-    // Only clear for non-email/phone fields (those have custom logic above)
-    const id = el.id;
-    if (!['v-email','v-phone','r-email','r-phone'].includes(id)) {
-      el.closest('.form-group').classList.remove('error');
-    }
-  });
+/* ══════════════════════════════════════════════════════════
+   HEADER SCROLL
+══════════════════════════════════════════════════════════ */
+const header = document.getElementById("header");
+window.addEventListener("scroll", () => {
+  header.classList.toggle("scrolled", window.scrollY > 60);
 });
 
 
-/* ══════════════════════════════════════════
-   STICKY HEADER
-══════════════════════════════════════════ */
-const header = document.getElementById('header');
-window.addEventListener('scroll', () => {
-  header.classList.toggle('scrolled', window.scrollY > 60);
-});
+/* ══════════════════════════════════════════════════════════
+   HAMBURGER MENU
+══════════════════════════════════════════════════════════ */
+const hamburger = document.getElementById("hamburger");
+const mobileNav = document.getElementById("mobileNav");
 
-
-/* ══════════════════════════════════════════
-   MOBILE NAVIGATION
-══════════════════════════════════════════ */
-const hamburger = document.getElementById('hamburger');
-const mobileNav = document.getElementById('mobileNav');
-
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('open');
-  mobileNav.classList.toggle('open');
-  document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("open");
+  mobileNav.classList.toggle("open");
 });
 
 function closeMobileNav() {
-  hamburger.classList.remove('open');
-  mobileNav.classList.remove('open');
-  document.body.style.overflow = '';
+  hamburger.classList.remove("open");
+  mobileNav.classList.remove("open");
 }
 
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    SCROLL REVEAL
-══════════════════════════════════════════ */
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('in-view');
-      revealObserver.unobserve(entry.target);
+══════════════════════════════════════════════════════════ */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add("in-view");
+      revealObs.unobserve(e.target);
     }
   });
-}, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+}, { threshold: 0.12 });
 
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-// Fallback: force all reveals after 1.5s
-setTimeout(() => {
-  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
-}, 1500);
+document.querySelectorAll(".reveal").forEach(el => revealObs.observe(el));
 
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    BACK TO TOP
-══════════════════════════════════════════ */
-const btt = document.getElementById('backToTop');
-window.addEventListener('scroll', () => {
-  btt.classList.toggle('show', window.scrollY > 400);
-});
-btt.addEventListener('click', (e) => {
-  e.preventDefault();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+══════════════════════════════════════════════════════════ */
+const backToTop = document.getElementById("backToTop");
+window.addEventListener("scroll", () => {
+  backToTop.classList.toggle("show", window.scrollY > 400);
 });
 
 
-/* ══════════════════════════════════════════
-   VISIT DATE TOGGLE
-══════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   VISIT FORM — toggle date field
+══════════════════════════════════════════════════════════ */
 function toggleVisitDate() {
-  const sel       = document.getElementById('v-visit');
-  const dateGroup = document.getElementById('dateGroup');
-  const onlineMsg = document.getElementById('onlineMsg');
+  const val = document.getElementById("v-visit").value;
+  document.getElementById("dateGroup").style.display = val === "yes" ? "block" : "none";
+  document.getElementById("onlineMsg").style.display = val === "no"  ? "flex"  : "none";
+}
 
-  if (sel.value === 'yes') {
-    dateGroup.style.display = 'block';
-    onlineMsg.style.display = 'none';
-  } else if (sel.value === 'no') {
-    dateGroup.style.display = 'none';
-    onlineMsg.style.display = 'flex';
-  } else {
-    dateGroup.style.display = 'none';
-    onlineMsg.style.display = 'none';
+
+/* ══════════════════════════════════════════════════════════
+   VALIDATION
+══════════════════════════════════════════════════════════ */
+const isValidEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+const isValidPhone = v => /^[6-9]\d{9}$/.test(v.replace(/\D/g, "").replace(/^91/, ""));
+
+function cleanPhone(raw) {
+  const d = raw.replace(/\D/g, "").replace(/^91/, "");
+  return d.length === 10 ? d : null;
+}
+
+function setError(inputId, hasError) {
+  const grp = document.getElementById(inputId)?.closest(".form-group");
+  if (grp) grp.classList.toggle("error", hasError);
+}
+
+function validateVisitFields() {
+  const name  = document.getElementById("v-name").value.trim();
+  const email = document.getElementById("v-email").value.trim();
+  const phone = document.getElementById("v-phone").value.trim();
+  const plan  = document.getElementById("v-plan").value;
+  const visit = document.getElementById("v-visit").value;
+  const date  = document.getElementById("v-date").value;
+
+  let ok = true;
+  setError("v-name",  !name);               if (!name)               ok = false;
+  setError("v-email", !isValidEmail(email)); if (!isValidEmail(email)) ok = false;
+  setError("v-phone", !isValidPhone(phone)); if (!isValidPhone(phone)) ok = false;
+  setError("v-plan",  !plan);               if (!plan)               ok = false;
+  if (visit === "yes") { setError("v-date", !date); if (!date) ok = false; }
+  return ok;
+}
+
+function validateRegisterFields() {
+  const name  = document.getElementById("r-name").value.trim();
+  const email = document.getElementById("r-email").value.trim();
+  const phone = document.getElementById("r-phone").value.trim();
+  const plan  = document.getElementById("r-plan").value;
+
+  let ok = true;
+  setError("r-name",  !name);               if (!name)               ok = false;
+  setError("r-email", !isValidEmail(email)); if (!isValidEmail(email)) ok = false;
+  setError("r-phone", !isValidPhone(phone)); if (!isValidPhone(phone)) ok = false;
+  setError("r-plan",  !plan);               if (!plan)               ok = false;
+  return ok;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   SEND OTP
+══════════════════════════════════════════════════════════ */
+async function sendOtp(formType) {
+  const isVisit = formType === "visit";
+
+  if (isVisit  && !validateVisitFields())    return;
+  if (!isVisit && !validateRegisterFields()) return;
+
+  const raw   = document.getElementById(isVisit ? "v-phone" : "r-phone").value;
+  const phone = "+91" + raw.replace(/\D/g, "").slice(-10);
+
+  const btn = document.getElementById(isVisit ? "vSendOtpBtn" : "rSendOtpBtn");
+  btn.classList.add("loading");
+  btn.textContent = "Sending OTP…";
+
+  try {
+    const verifier = isVisit ? recaptchaVisit : recaptchaRegister;
+    const result   = await auth.signInWithPhoneNumber(phone, verifier);
+
+    // Save confirmation result for this form
+    if (isVisit) window.visitConfirmation = result;
+    else         window.registerConfirmation = result;
+
+    // Show OTP input box
+    const box     = document.getElementById(isVisit ? "visitOtpBox"   : "registerOtpBox");
+    const phoneEl = document.getElementById(isVisit ? "visitOtpPhone" : "registerOtpPhone");
+    phoneEl.textContent = phone;
+    box.classList.add("show");
+    btn.style.display = "none";
+
+    // Focus OTP input
+    document.getElementById(isVisit ? "v-otp" : "r-otp").focus();
+
+  } catch (error) {
+    console.error("OTP error:", error);
+    alert("Could not send OTP: " + error.message);
+    btn.classList.remove("loading");
+    btn.textContent = "Send OTP & Verify";
+
+    // Reset recaptcha so user can try again
+    const divId = isVisit ? "recaptcha-visit" : "recaptcha-register";
+    document.getElementById(divId).innerHTML = "";
+    if (isVisit) { recaptchaVisit = null;    }
+    else         { recaptchaRegister = null; }
+    initRecaptchas();
   }
 }
 
 
-/* ══════════════════════════════════════════
-   VISIT FORM SUBMISSION
-══════════════════════════════════════════ */
-function submitVisitForm(e) {
-  e.preventDefault();
-  let hasErrors = false;
+/* ══════════════════════════════════════════════════════════
+   VERIFY OTP & SUBMIT
+══════════════════════════════════════════════════════════ */
+async function verifyOtpAndSubmit(formType) {
+  const isVisit = formType === "visit";
+  const code    = document.getElementById(isVisit ? "v-otp" : "r-otp").value.trim();
+  const errEl   = document.getElementById(isVisit ? "visitOtpErr" : "registerOtpErr");
+  const result  = isVisit ? window.visitConfirmation : window.registerConfirmation;
 
-  const name     = document.getElementById('v-name');
-  const email    = document.getElementById('v-email');
-  const phone    = document.getElementById('v-phone');
-  const plan     = document.getElementById('v-plan');
-  const visitSel = document.getElementById('v-visit');
-  const date     = document.getElementById('v-date');
-
-  // Name
-  if (!name.value.trim()) {
-    hasErrors = setError('v-name', true, 'Please enter your full name.') || true;
-  } else {
-    setError('v-name', false);
+  if (!code) {
+    errEl.textContent = "Please enter the OTP.";
+    errEl.classList.add("show");
+    return;
   }
 
-  // Email — enhanced validation
-  const emailResult = validateEmail(email.value);
-  if (!emailResult.valid) {
-    hasErrors = setError('v-email', true, emailResult.msg) || true;
-  } else {
-    setError('v-email', false);
+  try {
+    await result.confirm(code);   // Firebase checks the OTP
+    errEl.classList.remove("show");
+    isVisit ? await submitVisit() : await submitRegister();
+
+  } catch (error) {
+    errEl.textContent = "Incorrect OTP. Please try again.";
+    errEl.classList.add("show");
+    document.getElementById(isVisit ? "v-otp" : "r-otp").value = "";
+    document.getElementById(isVisit ? "v-otp" : "r-otp").focus();
   }
-
-  // Phone — enhanced validation
-  const phoneResult = validatePhone(phone.value);
-  if (!phoneResult.valid) {
-    hasErrors = setError('v-phone', true, phoneResult.msg) || true;
-  } else {
-    setError('v-phone', false);
-  }
-
-  // Plan
-  if (!plan.value) {
-    hasErrors = setError('v-plan', true, 'Please select an investment plan.') || true;
-  } else {
-    setError('v-plan', false);
-  }
-
-  // Date (only if visit = yes)
-  if (visitSel.value === 'yes' && !date.value) {
-    hasErrors = setError('v-date', true, 'Please select your preferred visit date.') || true;
-  } else {
-    setError('v-date', false);
-  }
-
-  if (hasErrors) return;
-
-  const btn = document.querySelector('#visitForm .btn-submit');
-  btn.textContent = 'Submitting...';
-  btn.disabled = true;
-
-  var url = APPS_SCRIPT_URL
-    + '?formType=visit'
-    + '&name='      + encodeURIComponent(name.value.trim())
-    + '&email='     + encodeURIComponent(email.value.trim())
-    + '&phone='     + encodeURIComponent(phone.value.trim())
-    + '&plan='      + encodeURIComponent(plan.options[plan.selectedIndex].text)
-    + '&wantVisit=' + encodeURIComponent(visitSel.value === 'yes' ? 'Yes' : 'No')
-    + '&visitDate=' + encodeURIComponent(date.value || 'N/A');
-
-  var img = new Image();
-  img.src = url;
-
-  setTimeout(() => {
-    btn.textContent = 'Submitted ✓';
-    btn.style.background = 'linear-gradient(135deg, #2d6a4f, #40916c)';
-    document.getElementById('visitForm')
-      .querySelectorAll('input, select, textarea, button')
-      .forEach(el => el.disabled = true);
-    const s = document.getElementById('visitSuccess');
-    s.classList.add('show');
-    s.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 2000);
 }
 
 
-/* ══════════════════════════════════════════
-   REGISTER FORM SUBMISSION
-══════════════════════════════════════════ */
-function submitRegisterForm(e) {
-  e.preventDefault();
-  let hasErrors = false;
+/* ══════════════════════════════════════════════════════════
+   VISIT FORM — submit to Google Sheet
+══════════════════════════════════════════════════════════ */
+async function submitVisit() {
+  const name   = document.getElementById("v-name").value.trim();
+  const email  = document.getElementById("v-email").value.trim();
+  const phone  = cleanPhone(document.getElementById("v-phone").value);
+  const plan   = document.getElementById("v-plan").options[document.getElementById("v-plan").selectedIndex].text;
+  const choice = document.getElementById("v-visit").value;
+  const date   = document.getElementById("v-date").value || "Online enquiry";
+  const time   = new Date().toLocaleString("en-IN");
 
-  const name  = document.getElementById('r-name');
-  const email = document.getElementById('r-email');
-  const phone = document.getElementById('r-phone');
-  const plan  = document.getElementById('r-plan');
-  const msg   = document.getElementById('r-msg');
+  try {
+    await fetch(CONFIG.gasUrl, {
+      method : "POST",
+      mode   : "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body   : JSON.stringify({ formType: "visit", name, email, phone, plan, choice, date, submittedAt: time }),
+    });
+  } catch (e) { console.warn("Sheet error:", e); }
 
-  // Name
-  if (!name.value.trim()) {
-    hasErrors = setError('r-name', true, 'Please enter your full name.') || true;
-  } else {
-    setError('r-name', false);
-  }
+  // Hide OTP box, show success
+  document.getElementById("visitOtpBox").classList.remove("show");
+  const success = document.getElementById("visitSuccess");
+  success.classList.add("show");
+  success.scrollIntoView({ behavior: "smooth", block: "center" });
 
-  // Email — enhanced validation
-  const emailResult = validateEmail(email.value);
-  if (!emailResult.valid) {
-    hasErrors = setError('r-email', true, emailResult.msg) || true;
-  } else {
-    setError('r-email', false);
-  }
-
-  // Phone — enhanced validation
-  const phoneResult = validatePhone(phone.value);
-  if (!phoneResult.valid) {
-    hasErrors = setError('r-phone', true, phoneResult.msg) || true;
-  } else {
-    setError('r-phone', false);
-  }
-
-  // Plan
-  if (!plan.value) {
-    hasErrors = setError('r-plan', true, 'Please select a plan.') || true;
-  } else {
-    setError('r-plan', false);
-  }
-
-  if (hasErrors) return;
-
-  const btn = document.querySelector('#registerForm .btn-submit');
-  btn.textContent = 'Submitting...';
-  btn.disabled = true;
-
-  var url = APPS_SCRIPT_URL
-    + '?formType=register'
-    + '&name='    + encodeURIComponent(name.value.trim())
-    + '&email='   + encodeURIComponent(email.value.trim())
-    + '&phone='   + encodeURIComponent(phone.value.trim())
-    + '&plan='    + encodeURIComponent(plan.options[plan.selectedIndex].text)
-    + '&message=' + encodeURIComponent(msg.value.trim());
-
-  var img = new Image();
-  img.src = url;
-
-  setTimeout(() => {
-    btn.textContent = 'Submitted ✓';
-    btn.style.background = 'linear-gradient(135deg, #2d6a4f, #40916c)';
-    document.getElementById('registerForm')
-      .querySelectorAll('input, select, textarea, button')
-      .forEach(el => el.disabled = true);
-    const s = document.getElementById('registerSuccess');
-    s.classList.add('show');
-    s.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 2000);
+  // Reset
+  document.getElementById("visitForm").reset();
+  document.getElementById("dateGroup").style.display = "none";
+  document.getElementById("onlineMsg").style.display = "none";
+  const btn = document.getElementById("vSendOtpBtn");
+  btn.style.display = "";
+  btn.classList.remove("loading");
+  btn.textContent = "Send OTP & Verify";
 }
 
 
-/* ══════════════════════════════════════════
-   SMOOTH SCROLL FOR ANCHOR LINKS
-══════════════════════════════════════════ */
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    const target = document.querySelector(link.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      const top = target.getBoundingClientRect().top + window.scrollY - 76;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
-  });
-});
+/* ══════════════════════════════════════════════════════════
+   REGISTER FORM — submit to Google Sheet
+══════════════════════════════════════════════════════════ */
+async function submitRegister() {
+  const name   = document.getElementById("r-name").value.trim();
+  const email  = document.getElementById("r-email").value.trim();
+  const phone  = cleanPhone(document.getElementById("r-phone").value);
+  const plan   = document.getElementById("r-plan").options[document.getElementById("r-plan").selectedIndex].text;
+  const source = document.getElementById("r-source").value || "Not specified";
+  const msg    = document.getElementById("r-msg").value.trim() || "None";
+  const time   = new Date().toLocaleString("en-IN");
 
+  try {
+    await fetch(CONFIG.gasUrl, {
+      method : "POST",
+      mode   : "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body   : JSON.stringify({ formType: "register", name, email, phone, plan, source, message: msg, submittedAt: time }),
+    });
+  } catch (e) { console.warn("Sheet error:", e); }
 
-/* ══════════════════════════════════════════
-   ACTIVE NAV LINK HIGHLIGHTING
-══════════════════════════════════════════ */
-const sectionObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
-      const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-      if (active) active.classList.add('active');
-    }
-  });
-}, { threshold: 0.4 });
-document.querySelectorAll('section[id]').forEach(s => sectionObserver.observe(s));
+  // Hide OTP box, show success
+  document.getElementById("registerOtpBox").classList.remove("show");
+  const success = document.getElementById("registerSuccess");
+  success.classList.add("show");
+  success.scrollIntoView({ behavior: "smooth", block: "center" });
 
-
-/* ══════════════════════════════════════════
-   PLAN CARD TILT EFFECT
-══════════════════════════════════════════ */
-document.querySelectorAll('.plan-card').forEach(card => {
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top  - rect.height / 2;
-    card.style.transform = `perspective(800px) rotateX(${-(y/rect.height)*6}deg) rotateY(${(x/rect.width)*6}deg) translateY(-6px)`;
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-    card.style.transition = 'transform 0.5s ease';
-    setTimeout(() => card.style.transition = '', 500);
-  });
-});
-
-
-/* ══════════════════════════════════════════
-   GALLERY LIGHTBOX
-══════════════════════════════════════════ */
-document.querySelectorAll('.gallery-item img').forEach(img => {
-  img.style.cursor = 'zoom-in';
-  img.addEventListener('click', () => {
-    const style = document.createElement('style');
-    style.textContent = '@keyframes fadeIn{from{opacity:0}to{opacity:1}}';
-    document.head.appendChild(style);
-    const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:zoom-out;animation:fadeIn 0.25s ease;';
-    const image = document.createElement('img');
-    image.src = img.src;
-    image.style.cssText = 'max-width:90vw;max-height:90vh;border-radius:8px;object-fit:contain;';
-    overlay.appendChild(image);
-    document.body.appendChild(overlay);
-    overlay.addEventListener('click', () => { overlay.remove(); style.remove(); });
-  });
-});
-
-
-/* ══════════════════════════════════════════
-   SET MINIMUM DATE FOR VISIT
-══════════════════════════════════════════ */
-const dateInput = document.getElementById('v-date');
-if (dateInput) {
-  const t = new Date();
-  dateInput.min = `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
+  // Reset
+  document.getElementById("registerForm").reset();
+  const btn = document.getElementById("rSendOtpBtn");
+  btn.style.display = "";
+  btn.classList.remove("loading");
+  btn.textContent = "Send OTP & Verify";
 }
-
-
-console.log('%cMahalakshmi Developers', 'color:#C8960C;font-size:18px;font-weight:bold;font-family:serif;');
-console.log('%cRed Sandalwood Farm Investment — Built with ❤️', 'color:#8B1A1A;font-size:12px;');
