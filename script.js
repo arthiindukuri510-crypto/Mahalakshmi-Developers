@@ -5,10 +5,10 @@ const CONFIG = {
 
 /* ── FIREBASE CONFIG — paste your 4 values from Firebase Console ── */
 const firebaseConfig = {
-  apiKey: "AIzaSyD5vt8hG2v6bWW6aAgjIu6jYuXtOn5mQ7c",
-  authDomain: "mahalakshmi-developers.firebaseapp.com",
-  projectId: "mahalakshmi-developers",
-  appId: "1:622045706494:web:986f023bdcbb23ec8f0daf"
+  apiKey: "AIzaSyAKmoaJFihwGHW4kWjDJ_0JFxet5BsLrhk",
+  authDomain: "mahalakshmi-project-e41ca.firebaseapp.com",
+  projectId: "mahalakshmi-project-e41ca",
+  appId: "1:655924461615:web:eea581a3a7bf650c8d06da"
 };
 
 firebase.initializeApp(firebaseConfig);
