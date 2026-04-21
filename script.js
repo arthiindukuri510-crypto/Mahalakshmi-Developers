@@ -2,7 +2,7 @@
 
 /* ── CONFIG ── */
 const CONFIG = {
-  gasUrl: "https://script.google.com/macros/s/AKfycbz0M3kA_A8tcVRn_Z76PiSC4BFgXge_zqQjjtjMoni0_R8ZExfoWLV7jGgdisr9fY93nA/exec",
+  gasUrl: "https://script.google.com/macros/s/AKfycbzRmXbLZLjYgAxJ0SLEStyBnbdyLAb2VdRNdhzhwbRgzwxzSO6YdneZuysMUKUODS6Yfw/exec",
 };
 
 /* ── FIREBASE CONFIG ── */
