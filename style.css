@@ -789,16 +789,19 @@ ul  { list-style: none; }
 .vd-item svg { width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px; }
 
 /* Layout */
-/* Layout */
 .layout-container {
   width: 100%;
   max-width: 100%;
   margin-top: 28px;
+  overflow: hidden;
+  border-radius: 12px;
 }
 
 .layout-image {
   width: 100%;
+  max-height: 380px;        /* ← controls the height */
   height: auto;
+  object-fit: contain;      /* ← keeps full image visible, no cropping */
   display: block;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.1);
