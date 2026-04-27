@@ -790,14 +790,16 @@ ul  { list-style: none; }
 
 /* Layout */
 ..layout-container {
-  margin-top: 36px;
-  text-align: center;
+  width: 100%;
+   max-width: 500px;
 }
 
 .layout-image {
   width: 100%;
-  max-width: 800px;
-  border-radius: 12px;
+  max-width: 480px;
+   height: auto;
+   display: block;
+   margin: 0 auto;
 }
 
 /* Forms */
