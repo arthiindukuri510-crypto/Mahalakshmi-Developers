@@ -1002,8 +1002,6 @@ ul  { list-style: none; }
   transform: translateY(10px);
   transition: opacity var(--transition), transform var(--transition);
   pointer-events: none;
-  font-size: 0;        /* ← ADD THIS */
-  line-height: 0;      /* ← ADD THIS */
 }
 .back-to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
 .back-to-top svg  { width: 22px; height: 22px; color: #fff; }
