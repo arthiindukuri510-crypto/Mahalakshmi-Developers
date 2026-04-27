@@ -1,15 +1,3 @@
-/* ══════════════════════════════════════════════════════════
-   MAHALAKSHMI DEVELOPERS — lang.js
-   Features:
-   1. Telugu / English language toggle in header
-   2. WhatsApp floating button (bottom right)
-   ──────────────────────────────────────────────────────────
-   HOW TO ADD:
-   In index.html, just before </body>, add:
-      <script src="lang.js"></script>
-   That's it — everything is injected automatically!
-══════════════════════════════════════════════════════════ */
-
 
 /* ══════════════════════════════════════════════════════════
    ALL TRANSLATIONS
