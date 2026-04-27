@@ -538,7 +538,10 @@ function applyLanguage(lang) {
   };
 
   /* ── NAV ── */
-  $$('a[href="#hero"]').forEach(el => { if (!el.classList.contains('btn-nav') && !el.classList.contains('btn-mobile-nav') && !el.classList.contains('back-to-top')) el.textContent = t.nav_home; });
+  $$('a[href="#hero"]').forEach(el => {
+  if (el.id === 'backToTop') return;
+  if (!el.classList.contains('btn-nav') && !el.classList.contains('btn-mobile-nav')) el.textContent = t.nav_home;
+});
   $$('a[href="#about"]').forEach(el => el.textContent = t.nav_about);
   $$('a[href="#plans"]').forEach(el => { if (!el.classList.contains('btn-plan') && !el.closest('.footer-links')) el.textContent = t.nav_plans; });
   $$('a[href="#surroundings"]').forEach(el => el.textContent = t.nav_surroundings);
