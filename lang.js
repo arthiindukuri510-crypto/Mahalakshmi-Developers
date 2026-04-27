@@ -330,6 +330,12 @@ function injectStyles() {
       border-color: #C8960C;
       color: #1A0A0A;
     }
+    /* Adjust back-to-top so it doesn't overlap WA button */
+.back-to-top {
+  bottom: 152px !important;
+  font-size: 0 !important;      /* ← ADD THIS */
+  line-height: 0 !important;    /* ← ADD THIS */
+}
 
     /* ── WhatsApp floating button ── */
     #wa-float {
