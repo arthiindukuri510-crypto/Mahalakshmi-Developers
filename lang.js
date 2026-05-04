@@ -409,7 +409,6 @@ function injectStyles() {
     }
 
     @media (max-width: 480px) {
-      .lang-btn span { display: none; }
       .lang-toggle { gap: 6px; }
       .lang-btn { padding: 7px 11px; font-size: 0.78rem; min-width: 56px; }
       #wa-float { bottom: 80px; right: 20px; width: 46px; height: 46px; }
