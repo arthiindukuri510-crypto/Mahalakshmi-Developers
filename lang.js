@@ -307,14 +307,15 @@ function injectStyles() {
       display: flex;
       align-items: center;
       gap: 4px;
-      padding: 6px 12px;
+      padding: 8px 14px;
       background: transparent;
       border: 1.5px solid rgba(200,150,12,0.35);
       border-radius: 20px;
       color: rgba(255,255,255,0.6);
       font-family: 'Outfit', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 600;
+      font-size: 0.82rem;
+      font-weight: 700;
+      min-width: 64px;
       cursor: pointer;
       transition: all 0.25s ease;
       white-space: nowrap;
@@ -409,7 +410,8 @@ function injectStyles() {
 
     @media (max-width: 480px) {
       .lang-btn span { display: none; }
-      .lang-btn { padding: 6px 8px; }
+      .lang-toggle { gap: 6px; }
+      .lang-btn { padding: 7px 11px; font-size: 0.78rem; min-width: 56px; }
       #wa-float { bottom: 80px; right: 20px; width: 46px; height: 46px; }
       .back-to-top { bottom: 136px !important; }
     }
@@ -460,10 +462,10 @@ function injectLangToggle() {
   wrap.className = 'lang-toggle';
   wrap.innerHTML = `
     <button class="lang-btn lang-active" data-lang="en" onclick="applyLanguage('en')" title="English">
-      🇬🇧 <span>EN</span>
+      🇬🇧 <span>ENGLISH</span>
     </button>
     <button class="lang-btn" data-lang="te" onclick="applyLanguage('te')" title="తెలుగు">
-      🇮🇳 <span>తె</span>
+      🇮🇳 <span>తెలుగు</span>
     </button>
   `;
 
